@@ -1,5 +1,24 @@
 page-home {
-    .toolbar-background {
-      background-color: #a3ecc9;
-    }
+ .title {
+     text-align: center;
+     color: teal;
+     text-shadow: 1px 1px #345238;
+     text-decoration: underline;
+ }
+ 
+ .bg-image {
+     background-image: url('../assets/imgs/computer.jpg');
+     background-repeat: no-repeat;
+     background-position: center;
+     background-size: cover;
+ }
+ 
+ img {
+     display: block;
+     margin-left: auto;
+     margin-right: auto;
+     border-radius: 10%;
+     width: 150px;
+ }
+ 
 }

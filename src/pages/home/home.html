@@ -1,34 +1,66 @@
-<ion-header>
-  <ion-navbar class="toolbar-background">
-    <button ion-button menuToggle>
-      <ion-icon name="menu"></ion-icon>
-    </button>
-    <ion-title >IonFire Chat</ion-title>
-  </ion-navbar>
-</ion-header>
+<ion-content padding id="signInPage" class="bg-image">
+  
+    <h3 class="title" padding >Login to GONG</h3>
+    
+    <img src="../assets/imgs/chat-logo.png" padding>
+    
+    <div id="signInForm">
+      <form #f="ngForm" (ngSubmit)="onLogin(f)">
+        <ion-list>
+          <ion-item>
+            <ion-label fix>Email</ion-label>
+            <ion-input 
+              type="email" 
+              ngModel
+              name="email"
+              pattern="[A-Za-z0-9._%+-]{3,}@[a-zA-Z]{3,}([.]{1}[a-zA-Z]{2,}|[.]{1}[a-zA-Z]{2,}[.]{1}[a-zA-Z]{2,})"
+              required></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label fix>Password</ion-label>
+            <ion-input 
+              type="password" 
+              ngModel
+              name="password"
+              required
+              [minlength]="6"></ion-input>
+          </ion-item>
+            
+            <a href="">Forgot Password?</a>
+            
+            <div padding>
+              <button ion-button full round type="submit" [disabled]="!f.valid" small>Login</button>
+            </div>
+        </ion-list>
+      </form>
+    </div>
+    
+    <button color="facebook" ion-button full round small> 
+      <ion-icon name="logo-facebook"></ion-icon>&nbsp;&nbsp;&nbsp;Login With FaceBook</button>
 
-<ion-content padding id="signInPage">
-  <h3>Sign In to IonFire Chat</h3>
-
-  <div id="signInForm">
-    <ion-list>
-
-      <ion-item>
-        <ion-label floating>Email</ion-label>
-        <ion-input type="email" [(ngModel)]="loginForm.email"></ion-input>
-      </ion-item>
-      <ion-item>
-        <ion-label floating>Display Name</ion-label>
-        <ion-input type="text" [(ngModel)]="loginForm.name"></ion-input>
-      </ion-item>
-
-      <ion-item>
-        <button ion-button large block (click)="loginUser()">Sign In</button>
-      </ion-item>
-
-    </ion-list>
-  </div>
-
-
+    <button color="google" ion-button full round small>
+      <ion-icon name="logo-googleplus"></ion-icon>&nbsp;&nbsp;&nbsp;Login With Google</button>
+      
+    <button ion-button full round small (click)="onSignup()">Signup Here</button>
+  
+    
+    <!--<div id="signInForm">-->
+    <!--  <ion-list>-->
+  
+    <!--    <ion-item>-->
+    <!--      <ion-label floating>Email</ion-label>-->
+    <!--      <ion-input type="email" [(ngModel)]="loginForm.email"></ion-input>-->
+    <!--    </ion-item>-->
+    <!--    <ion-item>-->
+    <!--      <ion-label floating>Display Name</ion-label>-->
+    <!--      <ion-input type="text" [(ngModel)]="loginForm.name"></ion-input>-->
+    <!--    </ion-item>-->
+  
+    <!--    <ion-item>-->
+    <!--      <button ion-button full round (click)="loginUser()">Sign In</button>-->
+    <!--    </ion-item>-->
+  
+    <!--  </ion-list>-->
+    <!--</div>-->
 
 </ion-content>

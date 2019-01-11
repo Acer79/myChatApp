@@ -5,6 +5,7 @@ import { Chat } from "../../app/app.models";
 import { appconfig } from "../../app/app.config";
 import { ChatService } from "../../app/app.service";
 import { Storage } from "@ionic/storage";
+// import { EmojiPickerModule } from '@ionic-tools/emoji-picker';
 
 @IonicPage()
 @Component({
@@ -12,6 +13,10 @@ import { Storage } from "@ionic/storage";
   templateUrl: "chatroom.html"
 })
 export class ChatroomPage implements OnInit {
+  
+  toggled: boolean = false;
+  emojitext: string;
+  
   chats: any = [];
   chatpartner = this.chatService.currentChatPartner;
   chatuser;
@@ -79,4 +84,9 @@ export class ChatroomPage implements OnInit {
   isChatPartner(senderEmail) {
     return senderEmail == this.chatpartner.email;
   } //isChatPartner
+  
+  handleSelection(event) {
+    this.emojitext = this.emojitext + " " + event.char;
+  }
+  
 }

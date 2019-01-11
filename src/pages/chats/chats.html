@@ -1,8 +1,15 @@
 <ion-header>
 
-  <ion-navbar>
-    <ion-title>{{chatuser?.name}}</ion-title>
-  </ion-navbar>
+  <ion-navbar color="teal" hideBackButton="true">
+    <ion-buttons end>
+      <button ion-button class="text-on-bottom" (click)="onLogout($event)">
+        <ion-icon name="log-out"></ion-icon>
+        Logout
+      </button>
+    </ion-buttons>
+    <img height="40" padding-left="2px" src="{{chatuser?.avatar}}">
+    <ion-title>{{chatuser?.userName}}</ion-title>
+</ion-navbar>
 
 </ion-header>
 
@@ -15,9 +22,9 @@
     </ion-list-header>
     <ion-item *ngFor="let user of availableusers" (click)="goToChat(user)">
       <ion-avatar item-start>
-        <img src="http://via.placeholder.com/16x16">
+        <img src="{{user.avatar}}">
       </ion-avatar>
-      <h2>{{user.name || "Anonymous"}}</h2>
+      <h2>{{user.userName || "Anonymous"}}</h2>
 
       <p>{{user.email}}</p>
     </ion-item>

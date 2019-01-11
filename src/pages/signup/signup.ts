@@ -13,16 +13,22 @@ import { Storage } from "@ionic/storage";
 import { ChatsPage } from "../chats/chats";
 import { appconfig } from "../../app/app.config";
 import { NgForm } from "@angular/forms";
-import { SignupPage } from "../signup/signup";
 import { AuthService } from "../../services/auth";
+import avatar from '../../data/avatars';
 
+@IonicPage()
 @Component({
-  selector: "page-home",
-  templateUrl: "home.html"
+  selector: 'page-signup',
+  templateUrl: 'signup.html',
 })
-export class HomePage {
+export class SignupPage {
+  
   //email: string;
+  avatarList: any = [];
   loginForm: any = {};
+  disabled: any[] = [];
+  selection: any = {img: "assets/avatar/user.png"};
+  
   constructor(
     public navCtrl: NavController,
     private db: AngularFirestore,
@@ -30,38 +36,30 @@ export class HomePage {
     private loadingCtrl: LoadingController,
     private toastCtrl: ToastController,
     private storage: Storage,
-    private alertCtrl: AlertController,
-    private authService: AuthService
+    private authService: AuthService,
+    private alertCtrl: AlertController
   ) {}
-
+  
   ionViewWillEnter() {
-    const activeUser = this.authService.getActiveUser();
-    if (activeUser) {
-      this.storage.get("chatuser").then(chatuser => {
-      if (chatuser && chatuser.email !== "") {
-        this.navCtrl.push(ChatsPage);
-        }
-      });
-    } else {
-      this.authService.logout();
-    }
+    this.avatarList = avatar; 
   }
   
-  onLogin(form: NgForm) {
+  onSignup(form: NgForm) {
     this.loginForm = form;
     const loading = this.loadingCtrl.create({
-      content: 'Signing you in...'
+      content: " Signing you up please wait..."
     });
     loading.present();
-    this.authService.signin(form.value.email, form.value.password)
+    
+    this.authService.signup(this.loginForm.value.email, this.loginForm.value.password)
       .then(data => {
         loading.dismiss();
-        this.loginUser();
+        this.signUpUser();
       })
       .catch(error => {
         loading.dismiss();
         const alert = this.alertCtrl.create({
-          title: 'Signin failed!',
+          title: 'Signup failed!',
           message: error.message,
           buttons: ['Ok']
         });
@@ -69,11 +67,7 @@ export class HomePage {
       });
   }
   
-  onSignup() {
-    this.navCtrl.push(SignupPage);
-  }
-  
-    loginUser() {
+  signUpUser() {
         let myLoader = this.loadingCtrl.create({
         content: "Please wait..."
       });
@@ -85,22 +79,52 @@ export class HomePage {
           .valueChanges()
           .subscribe(users => {
 
-           
-              //User already exists, move to chats page
+            if (users.length === 0) {
+              //Register User
+
+              //Add the timestamp
+              this.loginForm.value.time = new Date().getTime();
               
-              this.storage.set("chatuser", users[0]);
+              this.loginForm.value.avatar = this.selection.img;
 
-              let toast = this.toastCtrl.create({
-                message: "Login In Successful",
-                duration: 3000,
-                position: "top"
-              });
-              toast.present();
-              myLoader.dismiss();
+              this.chatService
+                .addUser(this.loginForm.value)
+                .then(res => {
+                  //Registration successful
+                  
+                  this.storage.set("chatuser", this.loginForm.value);
+                  myLoader.dismiss();
 
-              this.navCtrl.push(ChatsPage);
+                  let toast = this.toastCtrl.create({
+                    message: "Login In Successful",
+                    duration: 3000,
+                    position: "top"
+                  });
+                  toast.present();
+
+                  this.navCtrl.push(ChatsPage);
+                })
+                .catch(err => {
+                  console.log(err);
+                  myLoader.dismiss();
+                });
+              } 
           });
       });
+  }
+  
+  onAvatarClick(avaSelect: string, index: number) {
+    
+    for(var i = 0; this.avatarList.length > i; i++) {
+      if(index !== i) {
+        this.disabled[i] = false;
+      } else {
+          this.disabled[index] = true;
+          this.selection = avaSelect;
+          console.log(this.selection);
+          return true;
+      }
+    }
   }
 
   // loginUser() {
@@ -170,6 +194,5 @@ export class HomePage {
   //     toast.present();
   //   }
   // }
-  
-    
+
 }

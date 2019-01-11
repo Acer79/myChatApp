@@ -9,7 +9,8 @@ export const appconfig = {
     messagingSenderId: "588266487240"
   },
   users_endpoint: "users",
-  chats_endpoint: "chats"
+  chats_endpoint: "chats",
+  avatars_endpoint: "avatar"
 };
 
     

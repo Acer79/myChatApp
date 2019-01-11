@@ -1,0 +1,63 @@
+
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>signup</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+  
+  <img class="img-logo" src="../assets/imgs/chat-logo.png" padding>
+    
+    <div id="signInForm">
+      <form #f="ngForm" (ngSubmit)="onSignup(f)">
+        <ion-list>
+          <ion-item>
+            <ion-label fix>Email</ion-label>
+            <ion-input 
+              type="email" 
+              ngModel
+              name="email"
+              pattern="[A-Za-z0-9._%+-]{3,}@[a-zA-Z]{3,}([.]{1}[a-zA-Z]{2,}|[.]{1}[a-zA-Z]{2,}[.]{1}[a-zA-Z]{2,})"
+              required></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label fix>Password</ion-label>
+            <ion-input 
+              type="password" 
+              ngModel
+              name="password"
+              required
+              [minlength]="6"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label fix>User Name</ion-label>
+            <ion-input 
+              type="text" 
+              ngModel
+              name="userName"
+              required></ion-input>
+          </ion-item>
+          
+          <h5>Select your Avatar</h5>
+          <ion-grid>
+            <ion-row>
+              <ion-col col-3 *ngFor="let ava of avatarList; let i = index">
+                <button class="button-border" type="button" [disabled]="disabled[i]" (click)="onAvatarClick(ava, i)">
+                  <img [src]="ava.img">
+                </button>
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+          
+          <div padding>
+            <button ion-button full round type="submit" [disabled]="!f.valid" small>Signup</button>
+          </div>
+        </ion-list>
+      </form>
+    </div>
+    
+</ion-content>
